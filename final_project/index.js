@@ -11,6 +11,14 @@ app.use(express.json());
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
 app.use("/customer/auth/*", function auth(req,res,next){
+        // Check if user is authenticated
+        if (req.session && req.session.user) {
+            // User is authenticated, proceed to next middleware or route handler
+            next();
+        } else {
+            // User is not authenticated, redirect to login page or send unauthorized status
+            res.status(401).send("Unauthorized");
+        }    
 //Write the authenication mechanism here
 });
  
